@@ -1,0 +1,89 @@
+extends Node2D
+
+@export var initial_spawn_interval: float = 1.2
+@export var spawn_interval_floor: float = 0.3
+@export var asteroid_min_speed: float = 80.0
+@export var asteroid_max_speed: float = 180.0
+
+@export var asteroid_scene: PackedScene
+
+@onready var asteroid_spawn_timer: Timer = $AsteroidSpawnTimer
+@onready var asteroids_container: Node2D = $Asteroids
+@onready var bullets_container: Node2D = $Bullets
+@onready var player: CharacterBody2D = $Player
+@onready var game_over_screen: CanvasLayer = $GameOverScreen
+
+
+var _player_start_position: Vector2
+
+func _ready() -> void:
+	if asteroid_scene == null:
+		push_error("Main: asteroid_scene is not assigned in the Inspector!")
+
+	_player_start_position = player.global_position
+
+	# Connect the timer's timeout signal to our spawn function.
+	asteroid_spawn_timer.timeout.connect(_on_asteroid_spawn_timer_timeout)
+	player.player_died.connect(_on_player_died)
+	game_over_screen.restart_requested.connect(_on_restart_requested)
+	
+	_start_run()
+
+func _start_run() -> void:
+	# Initialize asteroid spawn
+	asteroid_spawn_timer.wait_time = initial_spawn_interval
+	asteroid_spawn_timer.start()
+	# Start tracking survival time / score the moment a run begins.
+	GameState.start_run()
+
+func _on_asteroid_spawn_timer_timeout() -> void:
+	_spawn_asteroid()
+
+func _spawn_asteroid() -> void:
+	var asteroid := asteroid_scene.instantiate()
+
+	# Random X position along the top edge of the screen, so asteroids
+	# spawn just above the visible area and drift down into view.
+	var screen_size := get_viewport_rect().size
+	var spawn_x := randf_range(0.0, screen_size.x)
+	var spawn_y := -30.0
+
+	asteroid.global_position = Vector2(spawn_x, spawn_y)
+
+	# Randomize this asteroid's speed within our min max range.
+	asteroid.speed = randf_range(asteroid_min_speed, asteroid_max_speed)
+
+	# This is the dynamic per-spawn signal connection
+	asteroid.asteroid_destroyed.connect(_on_asteroid_destroyed)
+
+	asteroids_container.add_child(asteroid)
+
+func _on_asteroid_destroyed() -> void:
+	GameState.add_asteroid_destroyed()
+
+func _on_player_died() -> void:
+	GameState.stop_run()
+	asteroid_spawn_timer.stop()
+	game_over_screen.show_results()
+
+func _on_restart_requested() -> void:
+	game_over_screen.visible = false
+
+	# Clear all live gameplay objects
+	# Grab every child and from asteroids and bullet container and free it
+	for asteroid in asteroids_container.get_children():
+		asteroid.queue_free()
+	for bullet in bullets_container.get_children():
+		bullet.queue_free()
+
+	# Reset the player
+	player.global_position = _player_start_position
+	player.is_dead = false
+	player.show()
+	player.set_physics_process(true)
+
+	# Reset global stats
+	GameState.reset()
+
+	# Restart the run
+	_start_run()

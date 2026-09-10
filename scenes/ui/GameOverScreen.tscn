@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://bigkl4jljg6py"]
+
+[ext_resource type="Script" uid="uid://d3pdvxb4fp0p3" path="res://scripts/game_over.gd" id="1_0pcqs"]
+
+[node name="GameOverScreen" type="CanvasLayer" unique_id=1433712790]
+visible = false
+script = ExtResource("1_0pcqs")
+
+[node name="FinalScoreLabel" type="Label" parent="." unique_id=1062746216]
+offset_left = 525.0
+offset_top = 227.0
+offset_right = 647.0
+offset_bottom = 250.0
+text = "FinalScoreLabel"
+
+[node name="AsteroidsDestroyedLabel" type="Label" parent="." unique_id=365861687]
+offset_left = 529.0
+offset_top = 292.0
+offset_right = 636.0
+offset_bottom = 315.0
+text = "Astroid Count"
+
+[node name="SurvivalTimeLabel" type="Label" parent="." unique_id=567941367]
+offset_left = 529.0
+offset_top = 357.0
+offset_right = 670.0
+offset_bottom = 380.0
+text = "SurvivalTimeLabel"
+
+[node name="HighScoreLabel" type="Label" parent="." unique_id=1016357994]
+offset_left = 530.0
+offset_top = 423.0
+offset_right = 650.0
+offset_bottom = 472.0
+text = "HighScoreLabel
+"
+
+[node name="RestartButton" type="MenuButton" parent="." unique_id=1252143444]
+offset_left = 512.0
+offset_top = 526.0
+offset_right = 692.0
+offset_bottom = 595.0
+text = "Restart"
+flat = false
+item_count = 1
+popup/item_0/id = 0

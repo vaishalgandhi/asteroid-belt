@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://dvwcrsuh0ew6d"]
+
+[ext_resource type="Texture2D" uid="uid://budyonxanu0wr" path="res://assets/sprites/player_ship.png" id="1_p0vlq"]
+[ext_resource type="Script" uid="uid://cs0o0upbykoa1" path="res://scripts/player.gd" id="1_v6fml"]
+[ext_resource type="PackedScene" uid="uid://80qwma5afwdt" path="res://scenes/Bullet.tscn" id="2_3li8b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7w72f"]
+size = Vector2(96, 74)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_57wwf"]
+size = Vector2(96, 72)
+
+[node name="Player" type="CharacterBody2D" unique_id=460274802]
+collision_mask = 4
+script = ExtResource("1_v6fml")
+bullet_scene = ExtResource("2_3li8b")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=68141291]
+texture = ExtResource("1_p0vlq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1665437570]
+shape = SubResource("RectangleShape2D_7w72f")
+
+[node name="GunCooldown" type="Timer" parent="." unique_id=1991989123]
+
+[node name="Muzzle" type="Marker2D" parent="." unique_id=2018119107]
+position = Vector2(0, -40)
+
+[node name="HitboxArea" type="Area2D" parent="." unique_id=2097235740]
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxArea" unique_id=273980244]
+shape = SubResource("RectangleShape2D_57wwf")

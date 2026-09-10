@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://cxgkvlvjkro5"]
+
+[ext_resource type="Script" uid="uid://dmqsfx76y8tnv" path="res://scripts/main.gd" id="1_0bbpv"]
+[ext_resource type="PackedScene" uid="uid://dvwcrsuh0ew6d" path="res://scenes/Player.tscn" id="1_elqb8"]
+[ext_resource type="PackedScene" uid="uid://dacpvb8vrybky" path="res://scenes/Asteroid.tscn" id="2_rvslj"]
+[ext_resource type="PackedScene" uid="uid://cshv3hi0ddeha" path="res://scenes/ui/HUD.tscn" id="4_rarhs"]
+[ext_resource type="PackedScene" uid="uid://bigkl4jljg6py" path="res://scenes/ui/GameOverScreen.tscn" id="5_vcsgt"]
+
+[node name="Main" type="Node2D" unique_id=184483680]
+script = ExtResource("1_0bbpv")
+asteroid_scene = ExtResource("2_rvslj")
+
+[node name="Player" parent="." unique_id=460274802 instance=ExtResource("1_elqb8")]
+position = Vector2(631, 644)
+
+[node name="Bullets" type="Node2D" parent="." unique_id=170676169]
+
+[node name="Asteroids" type="Node2D" parent="." unique_id=677647226]
+
+[node name="AsteroidSpawnTimer" type="Timer" parent="." unique_id=1005902985]
+autostart = true
+
+[node name="Hud" parent="." unique_id=54052711 instance=ExtResource("4_rarhs")]
+
+[node name="GameOverScreen" parent="." unique_id=1433712790 instance=ExtResource("5_vcsgt")]
