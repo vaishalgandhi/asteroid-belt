@@ -1,9 +1,13 @@
 extends Node2D
 
-@export var initial_spawn_interval: float = 1.2
+@export var initial_spawn_interval: float = 1.0
 @export var spawn_interval_floor: float = 0.3
-@export var asteroid_min_speed: float = 80.0
+@export var asteroid_min_speed: float = 50.0
 @export var asteroid_max_speed: float = 180.0
+@export var difficulty_ramp_rate: float = 50
+
+@export var asteroid_min_scale: float = 0.7
+@export var asteroid_max_scale: float = 1.4
 
 @export var asteroid_scene: PackedScene
 
@@ -36,6 +40,17 @@ func _start_run() -> void:
 	# Start tracking survival time / score the moment a run begins.
 	GameState.start_run()
 
+func _process(delta: float) -> void:
+	if GameState.is_active:
+		_update_difficulty()
+
+func _update_difficulty() -> void:
+	# As survival_time climbs, reduce wait_time proportionally, but never
+	# below spawn_interval_floor.
+	var reduction := GameState.survival_time / difficulty_ramp_rate
+	var new_interval: float = max(initial_spawn_interval - reduction, spawn_interval_floor)
+	asteroid_spawn_timer.wait_time = new_interval
+
 func _on_asteroid_spawn_timer_timeout() -> void:
 	_spawn_asteroid()
 
@@ -50,8 +65,17 @@ func _spawn_asteroid() -> void:
 
 	asteroid.global_position = Vector2(spawn_x, spawn_y)
 
-	# Randomize this asteroid's speed within our min max range.
-	asteroid.speed = randf_range(asteroid_min_speed, asteroid_max_speed)
+	# Roll ONE random factor and derive both scale and speed from it,
+	# 0.0 = big & slow, 1.0 = small & fast
+	var size_factor := randf()
+
+	# Randomize this asteroid's speed and scale within min max range.
+	# lerp(from, to, weight) returns a value that's weight-percent of the way between from and to.
+	var asteroid_scale: float = lerp(asteroid_max_scale, asteroid_min_scale, size_factor)
+	var speed: float = lerp(asteroid_min_speed, asteroid_max_speed, size_factor)
+
+	asteroid.scale = Vector2(asteroid_scale, asteroid_scale)
+	asteroid.speed = speed
 
 	# This is the dynamic per-spawn signal connection
 	asteroid.asteroid_destroyed.connect(_on_asteroid_destroyed)
