@@ -1,0 +1,21 @@
+# CODEOWNERS
+# This file defines who is automatically requested for review on pull requests.
+# Docs: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+#
+# Default owner for everything in the repo.
+# The "*" pattern matches all files unless a more specific rule below overrides it.
+* @vaishalgandhi
+
+# --- Optional: more specific rules ---
+# Uncomment and adjust any of these if you want different reviewers for
+# different parts of the project. More specific paths take precedence over "*".
+
+# Only require review on changes to core gameplay scripts
+# /scripts/ @your-github-username
+
+# Only require review on changes to project settings / config
+# /project.godot @your-github-username
+
+# Exclude generated/cache folders from requiring review (not usually needed
+# since .gitignore should already keep these out of the repo)
+# /.godot/
