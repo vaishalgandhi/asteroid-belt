@@ -4,7 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://dvwcrsuh0ew6d" path="res://scenes/Player.tscn" id="1_elqb8"]
 [ext_resource type="PackedScene" uid="uid://dacpvb8vrybky" path="res://scenes/Asteroid.tscn" id="2_rvslj"]
 [ext_resource type="PackedScene" uid="uid://cshv3hi0ddeha" path="res://scenes/ui/HUD.tscn" id="4_rarhs"]
-[ext_resource type="PackedScene" uid="uid://bigkl4jljg6py" path="res://scenes/ui/GameOverScreen.tscn" id="5_vcsgt"]
+[ext_resource type="PackedScene" uid="uid://dx4leq7s8xmiu" path="res://scenes/ui/UIManager.tscn" id="5_vcsgt"]
+[ext_resource type="Script" uid="uid://cbg1m6b7ndjs" path="res://scripts/ui/ui_manager.gd" id="6_c01mt"]
 
 [node name="Main" type="Node2D" unique_id=184483680]
 script = ExtResource("1_0bbpv")
@@ -22,4 +23,5 @@ autostart = true
 
 [node name="Hud" parent="." unique_id=54052711 instance=ExtResource("4_rarhs")]
 
-[node name="GameOverScreen" parent="." unique_id=1433712790 instance=ExtResource("5_vcsgt")]
+[node name="UIManager" parent="." unique_id=454195698 instance=ExtResource("5_vcsgt")]
+script = ExtResource("6_c01mt")

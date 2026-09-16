@@ -1,0 +1,272 @@
+[gd_scene format=3 uid="uid://dx4leq7s8xmiu"]
+
+[ext_resource type="Material" uid="uid://sc7s0s5brecn" path="res://assets/shaders/background_tint_material.tres" id="1_qhlse"]
+[ext_resource type="Texture2D" uid="uid://sulpwxgk7f5l" path="res://assets/images/Gemini_Generated_Image_nschijnschijnsch.jpeg" id="2_qhlse"]
+[ext_resource type="Theme" uid="uid://btub87djrfrpo" path="res://assets/themes/ui_theme.tres" id="3_rrq71"]
+[ext_resource type="Texture2D" uid="uid://dy5j4e320bnx2" path="res://assets/images/logo.png" id="3_so2fy"]
+[ext_resource type="Script" uid="uid://pw788k7pbx8b" path="res://scripts/ui/game_over_menu.gd" id="5_kvdw8"]
+
+[node name="UiManager" type="CanvasLayer" unique_id=454195698]
+layer = 10
+
+[node name="BackgroundManager" type="Control" parent="." unique_id=224385237]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MenuBackground" type="TextureRect" parent="BackgroundManager" unique_id=567984479]
+material = ExtResource("1_qhlse")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -54.0
+offset_top = -47.0
+offset_right = 1282.0
+offset_bottom = 681.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_qhlse")
+stretch_mode = 6
+
+[node name="UI_Root" type="Control" parent="." unique_id=739746999]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_rrq71")
+
+[node name="StartScreen" type="Control" parent="UI_Root" unique_id=1837635387]
+layout_mode = 1
+anchor_left = 0.16
+anchor_top = 0.1
+anchor_right = 0.8
+anchor_bottom = 0.75
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI_Root/StartScreen" unique_id=511273530]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Logo" type="TextureRect" parent="UI_Root/StartScreen/VBoxContainer" unique_id=1774580848]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("3_so2fy")
+stretch_mode = 5
+
+[node name="MenuButtons" type="VBoxContainer" parent="UI_Root/StartScreen/VBoxContainer" unique_id=657920276]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="StartButton" type="MenuButton" parent="UI_Root/StartScreen/VBoxContainer/MenuButtons" unique_id=1453518431]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "START"
+flat = false
+
+[node name="SettingsButton" type="MenuButton" parent="UI_Root/StartScreen/VBoxContainer/MenuButtons" unique_id=1013419801]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "SETTINGS"
+flat = false
+
+[node name="QuitButton" type="MenuButton" parent="UI_Root/StartScreen/VBoxContainer/MenuButtons" unique_id=338462648]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "QUIT"
+flat = false
+
+[node name="PauseMenu" type="Control" parent="UI_Root" unique_id=435407547]
+visible = false
+layout_mode = 1
+anchor_left = 0.16
+anchor_top = 0.1
+anchor_right = 0.8
+anchor_bottom = 0.75
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="UI_Root/PauseMenu" unique_id=1920924986]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI_Root/PauseMenu" unique_id=1754636322]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="UI_Root/PauseMenu/VBoxContainer" unique_id=2060756546]
+layout_mode = 2
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI_Root/PauseMenu/VBoxContainer" unique_id=1451615098]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer" unique_id=384108192]
+layout_mode = 2
+
+[node name="CurrentScore" type="Label" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=79397163]
+layout_mode = 2
+text = "CURRENT SCORE"
+
+[node name="CurrentScoreValue" type="Label" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=968705712]
+layout_mode = 2
+text = "0"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer" unique_id=1114151382]
+layout_mode = 2
+
+[node name="HighestScore" type="Label" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1313745960]
+layout_mode = 2
+text = "HIGHEST SCORE"
+
+[node name="HighestScoreValue" type="Label" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=936935368]
+layout_mode = 2
+text = "0"
+
+[node name="VSeparator" type="VSeparator" parent="UI_Root/PauseMenu/VBoxContainer" unique_id=1122961119]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UI_Root/PauseMenu/VBoxContainer" unique_id=1956468345]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="ResumeButton" type="Button" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer2" unique_id=1304413344]
+layout_mode = 2
+text = "RESUME"
+
+[node name="QuitButton" type="MenuButton" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer2" unique_id=153491787]
+layout_mode = 2
+text = "QUIT"
+flat = false
+
+[node name="GameOverMenu" type="Control" parent="UI_Root" unique_id=200219323]
+visible = false
+layout_mode = 1
+anchor_left = 0.16
+anchor_top = 0.1
+anchor_right = 0.8
+anchor_bottom = 0.75
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_kvdw8")
+
+[node name="ColorRect" type="ColorRect" parent="UI_Root/GameOverMenu" unique_id=936196301]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI_Root/GameOverMenu" unique_id=1068024380]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="UI_Root/GameOverMenu/VBoxContainer" unique_id=1660978834]
+layout_mode = 2
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI_Root/GameOverMenu/VBoxContainer" unique_id=1517049661]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer" unique_id=937813776]
+layout_mode = 2
+
+[node name="FinalScore" type="Label" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=521123514]
+layout_mode = 2
+text = "FINAL SCORE"
+
+[node name="FinalScoreValue" type="Label" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1592291169]
+layout_mode = 2
+text = "0"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer" unique_id=15027812]
+layout_mode = 2
+
+[node name="HighestScore" type="Label" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1012253614]
+layout_mode = 2
+text = "HIGHEST SCORE"
+
+[node name="HighestScoreValue" type="Label" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1564044351]
+layout_mode = 2
+text = "0"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UI_Root/GameOverMenu/VBoxContainer" unique_id=2014533363]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer2" unique_id=1925565965]
+layout_mode = 2
+
+[node name="AsteroidsDestroyed" type="Label" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer2/VBoxContainer" unique_id=1964765136]
+layout_mode = 2
+text = "ASTEROIDS DESTROYED"
+
+[node name="AsteroidsDestroyedValue" type="Label" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer2/VBoxContainer" unique_id=1764103313]
+layout_mode = 2
+text = "0"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer2" unique_id=69922492]
+layout_mode = 2
+
+[node name="SurvivalTime" type="Label" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer2/VBoxContainer2" unique_id=1876945665]
+layout_mode = 2
+text = "SURVIVAL TIME"
+
+[node name="SurvivalTimeValue" type="Label" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer2/VBoxContainer2" unique_id=1762596821]
+layout_mode = 2
+text = "0:00"
+
+[node name="VSeparator" type="VSeparator" parent="UI_Root/GameOverMenu/VBoxContainer" unique_id=691062742]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="UI_Root/GameOverMenu/VBoxContainer" unique_id=1183056407]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="RestartButton" type="Button" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer3" unique_id=1475490603]
+layout_mode = 2
+text = "RESTART"
+
+[node name="QuitButton" type="MenuButton" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer3" unique_id=2049458306]
+layout_mode = 2
+text = "QUIT"
+flat = false

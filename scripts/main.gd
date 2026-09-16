@@ -15,7 +15,7 @@ extends Node2D
 @onready var asteroids_container: Node2D = $Asteroids
 @onready var bullets_container: Node2D = $Bullets
 @onready var player: CharacterBody2D = $Player
-@onready var game_over_screen: CanvasLayer = $GameOverScreen
+@onready var ui_manager: CanvasLayer = $UIManager
 
 
 var _player_start_position: Vector2
@@ -26,11 +26,19 @@ func _ready() -> void:
 
 	_player_start_position = player.global_position
 
+	# Game doesn't start playing until the Start Screen's button is pressed
+	player.set_physics_process(false)
+
 	# Connect the timer's timeout signal to our spawn function.
 	asteroid_spawn_timer.timeout.connect(_on_asteroid_spawn_timer_timeout)
 	player.player_died.connect(_on_player_died)
-	game_over_screen.restart_requested.connect(_on_restart_requested)
 	
+	ui_manager.game_start_requested.connect(_on_game_start_requested)
+	ui_manager.restart_requested.connect(_on_restart_requested)
+
+func _on_game_start_requested() -> void:
+	player.set_physics_process(true)
+	ui_manager.set_ui_state(ui_manager.UIState.PLAYING)
 	_start_run()
 
 func _start_run() -> void:
@@ -88,11 +96,9 @@ func _on_asteroid_destroyed() -> void:
 func _on_player_died() -> void:
 	GameState.stop_run()
 	asteroid_spawn_timer.stop()
-	game_over_screen.show_results()
+	ui_manager.show_game_over()
 
 func _on_restart_requested() -> void:
-	game_over_screen.visible = false
-
 	# Clear all live gameplay objects
 	# Grab every child and from asteroids and bullet container and free it
 	for asteroid in asteroids_container.get_children():
@@ -108,6 +114,9 @@ func _on_restart_requested() -> void:
 
 	# Reset global stats
 	GameState.reset()
+
+	# Show plying scene
+	ui_manager.set_ui_state(ui_manager.UIState.PLAYING)
 
 	# Restart the run
 	_start_run()
