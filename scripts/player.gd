@@ -1,3 +1,4 @@
+class_name Player
 extends CharacterBody2D
 
 @export var speed: float = 300.0
@@ -27,7 +28,7 @@ func _ready() -> void:
 	
 	hitbox_area.area_entered.connect(_on_hitbox_area_entered)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	# stop responding to input entirely once dead
 	if is_dead:
 		return  
