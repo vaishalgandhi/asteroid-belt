@@ -14,8 +14,8 @@ extends Node2D
 @onready var asteroid_spawn_timer: Timer = $AsteroidSpawnTimer
 @onready var asteroids_container: Node2D = $Asteroids
 @onready var bullets_container: Node2D = $Bullets
-@onready var player: CharacterBody2D = $Player
-@onready var ui_manager: CanvasLayer = $UIManager
+@onready var player: Player = $Player
+@onready var ui_manager: UIManager = $UIManager
 
 
 var _player_start_position: Vector2
@@ -38,7 +38,7 @@ func _ready() -> void:
 
 func _on_game_start_requested() -> void:
 	player.set_physics_process(true)
-	ui_manager.set_ui_state(ui_manager.UIState.PLAYING)
+	ui_manager.set_ui_state(UIManager.UIState.PLAYING)
 	_start_run()
 
 func _start_run() -> void:
@@ -116,7 +116,7 @@ func _on_restart_requested() -> void:
 	GameState.reset()
 
 	# Show plying scene
-	ui_manager.set_ui_state(ui_manager.UIState.PLAYING)
+	ui_manager.set_ui_state(UIManager.UIState.PLAYING)
 
 	# Restart the run
 	_start_run()

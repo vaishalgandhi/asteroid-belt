@@ -1,13 +1,16 @@
 [gd_scene format=3 uid="uid://dx4leq7s8xmiu"]
 
+[ext_resource type="Script" uid="uid://cbg1m6b7ndjs" path="res://scripts/ui/ui_manager.gd" id="1_kptt4"]
 [ext_resource type="Material" uid="uid://sc7s0s5brecn" path="res://assets/shaders/background_tint_material.tres" id="1_qhlse"]
 [ext_resource type="Texture2D" uid="uid://sulpwxgk7f5l" path="res://assets/images/ui_background.jpeg" id="2_qhlse"]
 [ext_resource type="Theme" uid="uid://btub87djrfrpo" path="res://assets/themes/ui_theme.tres" id="3_rrq71"]
 [ext_resource type="Texture2D" uid="uid://dy5j4e320bnx2" path="res://assets/images/logo.png" id="3_so2fy"]
 [ext_resource type="Script" uid="uid://pw788k7pbx8b" path="res://scripts/ui/game_over_menu.gd" id="5_kvdw8"]
+[ext_resource type="Script" uid="uid://cchmh5jhnr015" path="res://scripts/ui/pause_menu.gd" id="6_oq7y8"]
 
-[node name="UiManager" type="CanvasLayer" unique_id=454195698]
+[node name="UIManager" type="CanvasLayer" unique_id=454195698]
 layer = 10
+script = ExtResource("1_kptt4")
 
 [node name="BackgroundManager" type="Control" parent="." unique_id=224385237]
 layout_mode = 3
@@ -18,6 +21,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="MenuBackground" type="TextureRect" parent="BackgroundManager" unique_id=567984479]
+unique_name_in_owner = true
 material = ExtResource("1_qhlse")
 layout_mode = 1
 anchors_preset = 15
@@ -39,6 +43,7 @@ grow_vertical = 2
 theme = ExtResource("3_rrq71")
 
 [node name="StartScreen" type="Control" parent="UI_Root" unique_id=1837635387]
+unique_name_in_owner = true
 layout_mode = 1
 anchor_left = 0.2
 anchor_top = 0.2
@@ -66,6 +71,7 @@ layout_mode = 2
 theme_override_constants/separation = 20
 
 [node name="StartButton" type="Button" parent="UI_Root/StartScreen/VBoxContainer/MenuButtons" unique_id=1813372776]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -78,19 +84,22 @@ size_flags_horizontal = 4
 disabled = true
 text = "SETTINGS"
 
-[node name="QuitButton" type="Button" parent="UI_Root/StartScreen/VBoxContainer/MenuButtons" unique_id=1364044797]
+[node name="StartQuitButton" type="Button" parent="UI_Root/StartScreen/VBoxContainer/MenuButtons" unique_id=1364044797]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "QUIT"
 
 [node name="PauseMenu" type="Control" parent="UI_Root" unique_id=435407547]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchor_left = 0.2
 anchor_top = 0.2
 anchor_right = 0.8
 anchor_bottom = 0.75
+script = ExtResource("6_oq7y8")
 
 [node name="ColorRect" type="ColorRect" parent="UI_Root/PauseMenu" unique_id=1920924986]
 layout_mode = 1
@@ -123,22 +132,24 @@ alignment = 1
 [node name="VBoxContainer" type="VBoxContainer" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer" unique_id=384108192]
 layout_mode = 2
 
-[node name="CurrentScore" type="Label" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=79397163]
+[node name="PauseScore" type="Label" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=79397163]
 layout_mode = 2
 text = "CURRENT SCORE"
 
-[node name="CurrentScoreValue" type="Label" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=968705712]
+[node name="PauseScoreValue" type="Label" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=968705712]
+unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer" unique_id=1114151382]
 layout_mode = 2
 
-[node name="HighestScore" type="Label" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1313745960]
+[node name="PauseHighScore" type="Label" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1313745960]
 layout_mode = 2
 text = "HIGHEST SCORE"
 
-[node name="HighestScoreValue" type="Label" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=936935368]
+[node name="PauseHighScoreValue" type="Label" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=936935368]
+unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 
@@ -151,17 +162,20 @@ theme_override_constants/separation = 50
 alignment = 1
 
 [node name="ResumeButton" type="Button" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer2" unique_id=1304413344]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "RESUME"
 
-[node name="QuitButton" type="Button" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer2" unique_id=393951625]
+[node name="PauseQuitButton" type="Button" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer2" unique_id=393951625]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "QUIT"
 
 [node name="GameOverMenu" type="Control" parent="UI_Root" unique_id=200219323]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchor_left = 0.2
@@ -206,17 +220,19 @@ layout_mode = 2
 text = "FINAL SCORE"
 
 [node name="FinalScoreValue" type="Label" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1592291169]
+unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer" unique_id=15027812]
 layout_mode = 2
 
-[node name="HighestScore" type="Label" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1012253614]
+[node name="HighScore" type="Label" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1012253614]
 layout_mode = 2
 text = "HIGHEST SCORE"
 
-[node name="HighestScoreValue" type="Label" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1564044351]
+[node name="HighScoreValue" type="Label" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1564044351]
+unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 
@@ -233,6 +249,7 @@ layout_mode = 2
 text = "ASTEROIDS DESTROYED"
 
 [node name="AsteroidsDestroyedValue" type="Label" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer2/VBoxContainer" unique_id=1764103313]
+unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 
@@ -244,6 +261,7 @@ layout_mode = 2
 text = "SURVIVAL TIME"
 
 [node name="SurvivalTimeValue" type="Label" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer2/VBoxContainer2" unique_id=1762596821]
+unique_name_in_owner = true
 layout_mode = 2
 text = "0:00"
 
@@ -257,12 +275,14 @@ theme_override_constants/separation = 50
 alignment = 1
 
 [node name="RestartButton" type="Button" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer3" unique_id=1475490603]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "RESTART"
 
-[node name="QuitButton" type="Button" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer3" unique_id=1795051849]
+[node name="GameOverQuitButton" type="Button" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer3" unique_id=1795051849]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "QUIT"
