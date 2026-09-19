@@ -11,9 +11,11 @@ layer = 10
 
 [node name="BackgroundManager" type="Control" parent="." unique_id=224385237]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="MenuBackground" type="TextureRect" parent="BackgroundManager" unique_id=567984479]
 material = ExtResource("1_qhlse")
@@ -21,13 +23,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -54.0
-offset_top = -47.0
-offset_right = 1282.0
-offset_bottom = 681.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_qhlse")
+expand_mode = 1
 stretch_mode = 6
 
 [node name="UI_Root" type="Control" parent="." unique_id=739746999]
