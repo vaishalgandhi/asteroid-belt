@@ -40,12 +40,10 @@ theme = ExtResource("3_rrq71")
 
 [node name="StartScreen" type="Control" parent="UI_Root" unique_id=1837635387]
 layout_mode = 1
-anchor_left = 0.16
-anchor_top = 0.1
+anchor_left = 0.2
+anchor_top = 0.2
 anchor_right = 0.8
 anchor_bottom = 0.75
-offset_right = 40.0
-offset_bottom = 40.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI_Root/StartScreen" unique_id=511273530]
 layout_mode = 1
@@ -57,45 +55,42 @@ grow_vertical = 2
 alignment = 1
 
 [node name="Logo" type="TextureRect" parent="UI_Root/StartScreen/VBoxContainer" unique_id=1774580848]
+custom_minimum_size = Vector2(0, 175)
 layout_mode = 2
-size_flags_horizontal = 4
 texture = ExtResource("3_so2fy")
+expand_mode = 3
 stretch_mode = 5
 
 [node name="MenuButtons" type="VBoxContainer" parent="UI_Root/StartScreen/VBoxContainer" unique_id=657920276]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="StartButton" type="MenuButton" parent="UI_Root/StartScreen/VBoxContainer/MenuButtons" unique_id=1453518431]
+[node name="StartButton" type="Button" parent="UI_Root/StartScreen/VBoxContainer/MenuButtons" unique_id=1813372776]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "START"
-flat = false
 
-[node name="SettingsButton" type="MenuButton" parent="UI_Root/StartScreen/VBoxContainer/MenuButtons" unique_id=1013419801]
+[node name="SettingsButton" type="Button" parent="UI_Root/StartScreen/VBoxContainer/MenuButtons" unique_id=983443967]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
+disabled = true
 text = "SETTINGS"
-flat = false
 
-[node name="QuitButton" type="MenuButton" parent="UI_Root/StartScreen/VBoxContainer/MenuButtons" unique_id=338462648]
+[node name="QuitButton" type="Button" parent="UI_Root/StartScreen/VBoxContainer/MenuButtons" unique_id=1364044797]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "QUIT"
-flat = false
 
 [node name="PauseMenu" type="Control" parent="UI_Root" unique_id=435407547]
 visible = false
 layout_mode = 1
-anchor_left = 0.16
-anchor_top = 0.1
+anchor_left = 0.2
+anchor_top = 0.2
 anchor_right = 0.8
 anchor_bottom = 0.75
-offset_right = 40.0
-offset_bottom = 40.0
 
 [node name="ColorRect" type="ColorRect" parent="UI_Root/PauseMenu" unique_id=1920924986]
 layout_mode = 1
@@ -104,7 +99,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 1)
+color = Color(0, 0, 0, 0.78431374)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI_Root/PauseMenu" unique_id=1754636322]
 layout_mode = 1
@@ -156,23 +151,23 @@ theme_override_constants/separation = 50
 alignment = 1
 
 [node name="ResumeButton" type="Button" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer2" unique_id=1304413344]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+size_flags_horizontal = 4
 text = "RESUME"
 
-[node name="QuitButton" type="MenuButton" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer2" unique_id=153491787]
+[node name="QuitButton" type="Button" parent="UI_Root/PauseMenu/VBoxContainer/HBoxContainer2" unique_id=393951625]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "QUIT"
-flat = false
 
 [node name="GameOverMenu" type="Control" parent="UI_Root" unique_id=200219323]
 visible = false
 layout_mode = 1
-anchor_left = 0.16
-anchor_top = 0.1
+anchor_left = 0.2
+anchor_top = 0.2
 anchor_right = 0.8
 anchor_bottom = 0.75
-offset_right = 40.0
-offset_bottom = 40.0
 script = ExtResource("5_kvdw8")
 
 [node name="ColorRect" type="ColorRect" parent="UI_Root/GameOverMenu" unique_id=936196301]
@@ -182,7 +177,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 1)
+color = Color(0, 0, 0, 0.78431374)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI_Root/GameOverMenu" unique_id=1068024380]
 layout_mode = 1
@@ -262,10 +257,12 @@ theme_override_constants/separation = 50
 alignment = 1
 
 [node name="RestartButton" type="Button" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer3" unique_id=1475490603]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+size_flags_horizontal = 4
 text = "RESTART"
 
-[node name="QuitButton" type="MenuButton" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer3" unique_id=2049458306]
+[node name="QuitButton" type="Button" parent="UI_Root/GameOverMenu/VBoxContainer/HBoxContainer3" unique_id=1795051849]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "QUIT"
-flat = false
