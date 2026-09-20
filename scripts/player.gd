@@ -1,6 +1,12 @@
 class_name Player
 extends CharacterBody2D
 
+## Emmited when player dies. Main listens to this and trigger the Game Over flow.
+signal player_died
+
+## Emitted when the ship fires. Whoever owns the world decides where the bullet lives.
+signal bullet_fired(bullet: Bullet)
+
 @export var speed: float = 300.0
 @export var shoot_cooldown: float = 0.3
 
@@ -10,9 +16,6 @@ extends CharacterBody2D
 @onready var gun_cooldown: Timer = $GunCooldown
 @onready var muzzle: Marker2D = $Muzzle
 @onready var hitbox_area: Area2D = $HitboxArea
-
-# Main listens for this to know when to trigger the Game Over flow.
-signal player_died
 
 # Simple guard so a player who's already dying can't somehow trigger
 # this twice (e.g. overlapping two asteroids in the same frame).
@@ -53,10 +56,10 @@ func _clamp_to_screen() -> void:
 	#   than half the ship's width, or the left half would clip off-screen)
 	# - Maximum: screen_size.x - half_shape_size.x (same logic, mirrored for
 	#   the right edge)
-	global_position.x = clamp(global_position.x, half_shape_size.x, screen_size.x - half_shape_size.x)
+	global_position.x = clampf(global_position.x, half_shape_size.x, screen_size.x - half_shape_size.x)
 
 	# Same idea, but for vertical position (top/bottom edges of the screen).
-	global_position.y = clamp(global_position.y, half_shape_size.y, screen_size.y - half_shape_size.y)
+	global_position.y = clampf(global_position.y, half_shape_size.y, screen_size.y - half_shape_size.y)
 
 func _handle_shooting() -> void:
 	# Fire a shot only if gun cooldown is stopped
@@ -66,17 +69,25 @@ func _handle_shooting() -> void:
 		gun_cooldown.start()
 
 func _fire_bullet() -> void:
-	var bullet := bullet_scene.instantiate()
+	var bullet := bullet_scene.instantiate() as Bullet
 	bullet.global_position = muzzle.global_position
-	get_tree().current_scene.get_node("Bullets").add_child(bullet)
+	bullet_fired.emit(bullet)
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if is_dead:
 		return
 
-	if area.is_in_group("asteroids"):
+	if area is Asteroid:
 		is_dead = true
 		hide()
 		set_physics_process(false)
 
 		player_died.emit()
+
+## Puts the ship back into a fresh, playable state. Called by Main on restart button pressed.
+func reset(start_position: Vector2) -> void:
+	global_position = start_position
+	velocity = Vector2.ZERO
+	is_dead = false
+	show()
+	set_physics_process(true)

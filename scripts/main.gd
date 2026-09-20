@@ -4,7 +4,7 @@ extends Node2D
 @export var spawn_interval_floor: float = 0.3
 @export var asteroid_min_speed: float = 50.0
 @export var asteroid_max_speed: float = 180.0
-@export var difficulty_ramp_rate: float = 50
+@export var difficulty_ramp_rate: float = 50.0
 
 @export var asteroid_min_scale: float = 0.7
 @export var asteroid_max_scale: float = 1.4
@@ -29,9 +29,9 @@ func _ready() -> void:
 	# Game doesn't start playing until the Start Screen's button is pressed
 	player.set_physics_process(false)
 
-	# Connect the timer's timeout signal to our spawn function.
 	asteroid_spawn_timer.timeout.connect(_on_asteroid_spawn_timer_timeout)
 	player.player_died.connect(_on_player_died)
+	player.bullet_fired.connect(_on_player_bullet_fired)
 	
 	ui_manager.game_start_requested.connect(_on_game_start_requested)
 	ui_manager.restart_requested.connect(_on_restart_requested)
@@ -48,22 +48,12 @@ func _start_run() -> void:
 	# Start tracking survival time / score the moment a run begins.
 	GameState.start_run()
 
-func _process(_delta: float) -> void:
-	if GameState.is_active:
-		_update_difficulty()
-
-func _update_difficulty() -> void:
-	# As survival_time climbs, reduce wait_time proportionally, but never
-	# below spawn_interval_floor.
-	var reduction := GameState.survival_time / difficulty_ramp_rate
-	var new_interval: float = max(initial_spawn_interval - reduction, spawn_interval_floor)
-	asteroid_spawn_timer.wait_time = new_interval
-
 func _on_asteroid_spawn_timer_timeout() -> void:
 	_spawn_asteroid()
+	_update_asteroid_spawn_interval()
 
 func _spawn_asteroid() -> void:
-	var asteroid := asteroid_scene.instantiate()
+	var asteroid := asteroid_scene.instantiate() as Asteroid
 
 	# Random X position along the top edge of the screen, so asteroids
 	# spawn just above the visible area and drift down into view.
@@ -71,7 +61,7 @@ func _spawn_asteroid() -> void:
 	var spawn_x := randf_range(0.0, screen_size.x)
 	var spawn_y := -30.0
 
-	asteroid.global_position = Vector2(spawn_x, spawn_y)
+	asteroid.position = Vector2(spawn_x, spawn_y)
 
 	# Roll ONE random factor and derive both scale and speed from it,
 	# 0.0 = big & slow, 1.0 = small & fast
@@ -79,8 +69,8 @@ func _spawn_asteroid() -> void:
 
 	# Randomize this asteroid's speed and scale within min max range.
 	# lerp(from, to, weight) returns a value that's weight-percent of the way between from and to.
-	var asteroid_scale: float = lerp(asteroid_max_scale, asteroid_min_scale, size_factor)
-	var speed: float = lerp(asteroid_min_speed, asteroid_max_speed, size_factor)
+	var asteroid_scale: float = lerpf(asteroid_max_scale, asteroid_min_scale, size_factor)
+	var speed: float = lerpf(asteroid_min_speed, asteroid_max_speed, size_factor)
 
 	asteroid.scale = Vector2(asteroid_scale, asteroid_scale)
 	asteroid.speed = speed
@@ -89,6 +79,14 @@ func _spawn_asteroid() -> void:
 	asteroid.asteroid_destroyed.connect(_on_asteroid_destroyed)
 
 	asteroids_container.add_child(asteroid)
+
+## As survival_time climbs, shrink asteroid spawnwait_time, but never below the floor.
+func _update_asteroid_spawn_interval() -> void:
+	var reduction: float = GameState.survival_time / difficulty_ramp_rate
+	asteroid_spawn_timer.wait_time = maxf(initial_spawn_interval - reduction, spawn_interval_floor)
+
+func _on_player_bullet_fired(bullet: Bullet) -> void:
+	bullets_container.add_child(bullet)
 
 func _on_asteroid_destroyed() -> void:
 	GameState.add_asteroid_destroyed()
@@ -107,10 +105,7 @@ func _on_restart_requested() -> void:
 		bullet.queue_free()
 
 	# Reset the player
-	player.global_position = _player_start_position
-	player.is_dead = false
-	player.show()
-	player.set_physics_process(true)
+	player.reset(_player_start_position)
 
 	# Reset global stats
 	GameState.reset()

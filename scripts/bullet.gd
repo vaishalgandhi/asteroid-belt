@@ -1,15 +1,13 @@
+class_name Bullet
 extends Area2D
+## A projectile Bullet. Flies straight up and destroys the first asteroid it touches.
 
-# Exposed in the Inspector so you can tune bullet speed without touching code.
 @export var speed: float = 600.0
 
-# Emitted when this bullet hits something on the asteroids layer.
-# Main will listen for this (indirectly, via Asteroid) to know a hit happened.
-signal asteroid_hit(asteroid: Node2D)
+@onready var _notifier: VisibleOnScreenNotifier2D = $VisibleOnScreenNotifier2D
 
 func _ready() -> void:
-	# Connect the VisibleOnScreenNotifier2D's signal to our own cleanup function.
-	$VisibleOnScreenNotifier2D.screen_exited.connect(_on_screen_exited)
+	_notifier.screen_exited.connect(_on_screen_exited)
 
 	# Listen for overlaps with other Area2Ds to detect asteroids
 	area_entered.connect(_on_area_entered)
@@ -26,6 +24,9 @@ func _on_screen_exited() -> void:
 func _on_area_entered(area: Area2D) -> void:
 	# We only care if we hit something tagged as an asteroid.
 	# Bullet is consumed on impact that is why we should free the queue as well
-	if area.is_in_group("asteroids"):
-		area.take_hit()
-		queue_free()
+	# `as` returns null if the area isn't an Asteroid, so we ignore everything else.
+	var asteroid := area as Asteroid
+	if asteroid == null:
+		return
+	asteroid.take_hit()
+	queue_free()
