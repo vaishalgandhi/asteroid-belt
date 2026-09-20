@@ -47,6 +47,10 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
+		# Ignore Escape when game state is not active (menu or the death animation).
+		if not GameState.is_active:
+			return
+
 		if current_state == UIState.PLAYING:
 			set_ui_state(UIState.PAUSED)
 		elif current_state == UIState.PAUSED:

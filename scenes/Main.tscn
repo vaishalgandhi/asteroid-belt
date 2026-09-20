@@ -3,12 +3,14 @@
 [ext_resource type="Script" uid="uid://dmqsfx76y8tnv" path="res://scripts/main.gd" id="1_0bbpv"]
 [ext_resource type="PackedScene" uid="uid://dvwcrsuh0ew6d" path="res://scenes/Player.tscn" id="1_elqb8"]
 [ext_resource type="PackedScene" uid="uid://dacpvb8vrybky" path="res://scenes/Asteroid.tscn" id="2_rvslj"]
+[ext_resource type="PackedScene" uid="uid://bwc4tmagdx006" path="res://scenes/Explosion.tscn" id="3_c01mt"]
 [ext_resource type="PackedScene" uid="uid://cshv3hi0ddeha" path="res://scenes/ui/HUD.tscn" id="4_rarhs"]
 [ext_resource type="PackedScene" uid="uid://dx4leq7s8xmiu" path="res://scenes/ui/UIManager.tscn" id="5_vcsgt"]
 
 [node name="Main" type="Node2D" unique_id=184483680]
 script = ExtResource("1_0bbpv")
 asteroid_scene = ExtResource("2_rvslj")
+explosion_scene = ExtResource("3_c01mt")
 
 [node name="Player" parent="." unique_id=460274802 instance=ExtResource("1_elqb8")]
 position = Vector2(631, 644)

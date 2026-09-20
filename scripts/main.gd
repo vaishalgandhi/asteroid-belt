@@ -5,11 +5,13 @@ extends Node2D
 @export var asteroid_min_speed: float = 50.0
 @export var asteroid_max_speed: float = 180.0
 @export var difficulty_ramp_rate: float = 50.0
+@export var game_over_delay: float = 0.8
 
 @export var asteroid_min_scale: float = 0.7
 @export var asteroid_max_scale: float = 1.4
 
 @export var asteroid_scene: PackedScene
+@export var explosion_scene: PackedScene
 
 @onready var asteroid_spawn_timer: Timer = $AsteroidSpawnTimer
 @onready var asteroids_container: Node2D = $Asteroids
@@ -23,6 +25,10 @@ var _player_start_position: Vector2
 func _ready() -> void:
 	if asteroid_scene == null:
 		push_error("Main: asteroid_scene is not assigned in the Inspector!")
+
+	if explosion_scene == null:
+		push_error("Main: explosion_scene is not assigned in the Inspector!")
+
 
 	_player_start_position = player.global_position
 
@@ -80,6 +86,14 @@ func _spawn_asteroid() -> void:
 
 	asteroids_container.add_child(asteroid)
 
+func _spawn_explosion(at: Vector2) -> void:
+	if explosion_scene == null:
+		return
+
+	var explosion := explosion_scene.instantiate() as Explosion
+	add_child(explosion)
+	explosion.global_position = at
+
 ## As survival_time climbs, shrink asteroid spawnwait_time, but never below the floor.
 func _update_asteroid_spawn_interval() -> void:
 	var reduction: float = GameState.survival_time / difficulty_ramp_rate
@@ -94,6 +108,13 @@ func _on_asteroid_destroyed() -> void:
 func _on_player_died() -> void:
 	GameState.stop_run()
 	asteroid_spawn_timer.stop()
+
+	# Create the explosion where the player died.
+	_spawn_explosion(player.global_position)
+
+	# Give the player time to see the explosion.
+	await get_tree().create_timer(game_over_delay).timeout
+
 	ui_manager.show_game_over()
 
 func _on_restart_requested() -> void:
