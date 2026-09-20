@@ -48,7 +48,7 @@ func _start_run() -> void:
 	# Start tracking survival time / score the moment a run begins.
 	GameState.start_run()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if GameState.is_active:
 		_update_difficulty()
 
