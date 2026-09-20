@@ -80,7 +80,7 @@ func _tween_tint(target: float) -> void:
 	)
 
 # Called by Main right when the player dies
-func show_game_over(results_visible: bool = true) -> void:
+func show_game_over() -> void:
 	_game_over_menu.show_results()
 	set_ui_state(UIState.GAME_OVER)
 

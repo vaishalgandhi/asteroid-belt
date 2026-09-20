@@ -31,7 +31,7 @@ The Pause menu shows your current and highest score. The Game Over screen shows 
 
 ## Project Status
 
-**MVP complete and playable; full UI system implemented, reviewed and cleaned up.** The game runs through a `MENU → PLAYING → PAUSED → GAME_OVER` flow with a themed, resolution-independent UI (Start Screen, Pause Menu, Game Over screen with a cyan → rust shader tint).
+**MVP complete and playable; full UI system implemented, styled, reviewed and cleaned up.** The game runs through a `MENU → PLAYING → PAUSED → GAME_OVER` flow with a themed, resolution-independent UI (Start Screen, Pause Menu, Game Over screen) built from translucent bordered panels over the cockpit artwork, with a cyan → rust shader tint on death.
 
 **Done:**
 - Movement, shooting with cooldown, 1-hit KO, screen clamping
@@ -41,6 +41,8 @@ The Pause menu shows your current and highest score. The Game Over screen shows 
 - Asteroid size/speed variance (bigger = slower, smaller = faster)
 - Start / Pause / Game Over screens, shared Theme, background tint shader
 - UI review pass: full-rect background, real `Button` nodes, all Quit buttons wired, pause-menu stats, scene-unique node names, `class_name` + static typing across UI scripts, timer no longer auto-starts on the menu
+- UI panel restyle: Pause and Game Over screens use translucent bordered `Panel` backdrops, a framed title, and "stat card" boxes (caption over value), all driven by Theme Type Variations; spacing comes from container separation instead of `VSeparator` lines
+- UI polish pass: Start screen anchors aligned with the other screens, consistent button sizing/flags, clearer node names (`PauseTitle`), and `UIManager.show_game_over()` simplified to take no parameters
 
 **Up next:**
 - Explosion feedback on player death (currently the ship just hides)
@@ -49,7 +51,7 @@ The Pause menu shows your current and highest score. The Game Over screen shows 
 - Optional: live high-score label on the HUD, real sprites in place of placeholders
 - Optional cleanup: rename scene files to `snake_case` (see Naming Conventions)
 
-**Deliberately out of scope for now:** persistent high score, multiple lives/power-ups, multiple enemy types, Settings screen (button is present but disabled), mobile controls, live background during play.
+**Deliberately out of scope for now:** persistent high score, multiple lives/power-ups, multiple enemy types, Settings screen (button is present but disabled), mobile controls, live background during play, and image-based (9-slice) decorative panel frames — the panels intentionally use plain `StyleBoxFlat` styling.
 
 ## Tech Stack
 
@@ -84,7 +86,7 @@ res://
 ├── assets/
 │   ├── sprites/                  # Player/bullet/asteroid art
 │   ├── images/                   # UI background, logo
-│   ├── fonts/                    # Chakra Petch
+│   ├── fonts/                    # Chakra Petch (Regular, SemiBold, Bold used)
 │   ├── shaders/                  # background_tint.gdshader + material
 │   ├── themes/                   # ui_theme.tres — shared Theme resource
 │   └── audio/                    # (empty)
@@ -98,9 +100,24 @@ res://
 - **Collision layers:** `player` (1), `player_bullets` (2), `asteroid` (3), with masks set so bullets never hit the player and asteroids never collide with each other.
 - **UI state machine:** `UIManager` (instanced inside `Main.tscn`, `process_mode = ALWAYS`) drives a `MENU / PLAYING / PAUSED / GAME_OVER` enum via `set_ui_state()`, toggling screen visibility, the background, the shader tint (any in-flight tween is cancelled before a new one starts), and `get_tree().paused`. `main.gd` only calls `set_ui_state()` / `show_game_over()` and listens for `game_start_requested` / `restart_requested`. Full contract in `asteroid_belt_ui_spec.md` §5.
 - **Typed, decoupled UI scripts:** UI scripts find nodes through scene-unique names (`%NodeName`) rather than long `get_node()` paths, and each screen has its own script and `class_name`.
-- **Resolution-independent UI:** `canvas_items` stretch + `expand` aspect (1280×720 base), with every screen positioned by percentage anchors rather than pixel coordinates.
-- **Shared Theme resource:** all buttons/labels pull from one `Theme` (`assets/themes/ui_theme.tres`) assigned at `UI_Root`.
+- **Resolution-independent UI:** `canvas_items` stretch + `expand` aspect (1280×720 base), with every screen positioned by percentage anchors rather than pixel coordinates. All three screens (Start, Pause, Game Over) share the same safe zone: `0.25 / 0.2 / 0.75 / 0.8`, with zero offsets.
 - **Gameplay does not auto-start:** the player is inert and `AsteroidSpawnTimer` is stopped (Autostart off) until **START** is pressed.
+
+## UI Theming
+
+All buttons and labels pull from one `Theme` (`assets/themes/ui_theme.tres`, assigned at `UI_Root`). Fonts are referenced from the `.ttf` files, never embedded, which keeps the theme file a few KB. Pause and Game Over screens are styled through **Theme Type Variations** — set on a node's *Theme Type Variation* property rather than styled per node:
+
+| Variation | Base type | Used for |
+|---|---|---|
+| `MenuPanel` | Panel | Pause screen backdrop — translucent dark fill, cyan border, soft cyan glow, diagonal rounded corners |
+| `GameOverPanel` | Panel | Game Over backdrop — same shape with a rust border |
+| `StatBox` | PanelContainer | Bordered "stat card" wrapping a caption + value pair |
+| `TitleBox` | PanelContainer | Title frame with top and bottom borders only (Pause screen) |
+| `TitleLabel` | Label | Screen titles (Bold, 44, cyan) |
+| `CaptionLabel` | Label | Stat captions (SemiBold, 14, light cyan) |
+| `ValueLabel` | Label | Stat values (Bold, 32, white) |
+
+Layout gaps come from each container's **Separation** constant, not from `VSeparator` nodes (which draw a visible line). Buttons are real `Button` nodes styled by the theme's `Button` type; the Settings button is disabled until that screen exists.
 
 ## Naming Conventions
 
