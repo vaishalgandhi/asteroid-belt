@@ -83,7 +83,7 @@ func _tween_tint(target: float) -> void:
 		_menu_background.material, "shader_parameter/tint_amount", target, TINT_DURATION
 	)
 
-# Called by Main right when the player dies
+## Called by Main once the death sequence has finished. Fills the stats and switches state.
 func show_game_over() -> void:
 	_game_over_menu.show_results()
 	set_ui_state(UIState.GAME_OVER)
