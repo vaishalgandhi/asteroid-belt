@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bwc4tmagdx006" path="res://scenes/Explosion.tscn" id="3_c01mt"]
 [ext_resource type="PackedScene" uid="uid://cshv3hi0ddeha" path="res://scenes/ui/HUD.tscn" id="4_rarhs"]
 [ext_resource type="PackedScene" uid="uid://dx4leq7s8xmiu" path="res://scenes/ui/UIManager.tscn" id="5_vcsgt"]
+[ext_resource type="Script" uid="uid://dirllheg5hrn" path="res://scripts/camera.gd" id="7_nxtc6"]
 
 [node name="Main" type="Node2D" unique_id=184483680]
 script = ExtResource("1_0bbpv")
@@ -24,3 +25,7 @@ position = Vector2(631, 644)
 [node name="Hud" parent="." unique_id=54052711 instance=ExtResource("4_rarhs")]
 
 [node name="UIManager" parent="." unique_id=454195698 instance=ExtResource("5_vcsgt")]
+
+[node name="Camera" type="Camera2D" parent="." unique_id=1420863585]
+anchor_mode = 0
+script = ExtResource("7_nxtc6")

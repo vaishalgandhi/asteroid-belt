@@ -6,6 +6,8 @@ extends Node2D
 @export var asteroid_max_speed: float = 180.0
 @export var difficulty_ramp_rate: float = 50.0
 @export var game_over_delay: float = 0.8
+@export var hit_stop_duration: float = 0.20
+@export var hit_stop_time_scale: float = 0.05
 
 @export var asteroid_min_scale: float = 0.7
 @export var asteroid_max_scale: float = 1.4
@@ -17,12 +19,15 @@ extends Node2D
 @onready var asteroids_container: Node2D = $Asteroids
 @onready var bullets_container: Node2D = $Bullets
 @onready var player: Player = $Player
+@onready var camera: ShakeCamera = $Camera
 @onready var ui_manager: UIManager = $UIManager
 
 
 var _player_start_position: Vector2
 
 func _ready() -> void:
+	Engine.time_scale = 1.0
+
 	if asteroid_scene == null:
 		push_error("Main: asteroid_scene is not assigned in the Inspector!")
 
@@ -99,6 +104,20 @@ func _update_asteroid_spawn_interval() -> void:
 	var reduction: float = GameState.survival_time / difficulty_ramp_rate
 	asteroid_spawn_timer.wait_time = maxf(initial_spawn_interval - reduction, spawn_interval_floor)
 
+## As player dies, it almost freez the screen to give an hit-stop effect
+func _hit_stop() -> void:
+	Engine.time_scale = hit_stop_time_scale
+
+	# The last true means this timer ignores Engine.time_scale.
+	await get_tree().create_timer(
+		hit_stop_duration,
+		true,
+		false,
+		true
+	).timeout
+
+	Engine.time_scale = 1.0
+
 func _on_player_bullet_fired(bullet: Bullet) -> void:
 	bullets_container.add_child(bullet)
 
@@ -111,6 +130,8 @@ func _on_player_died() -> void:
 
 	# Create the explosion where the player died.
 	_spawn_explosion(player.global_position)
+	camera.shake()
+	await _hit_stop()
 
 	# Give the player time to see the explosion.
 	await get_tree().create_timer(game_over_delay).timeout
@@ -130,6 +151,7 @@ func _on_restart_requested() -> void:
 
 	# Reset global stats
 	GameState.reset()
+	Engine.time_scale = 1.0
 
 	# Show plying scene
 	ui_manager.set_ui_state(UIManager.UIState.PLAYING)
