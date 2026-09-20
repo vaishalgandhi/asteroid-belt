@@ -7,10 +7,12 @@ extends Node2D
 @export var end_scale: float = 2.0
 
 @onready var _sprite: Sprite2D = $Sprite2D
+@onready var _sound: AudioStreamPlayer = $Sound
 
 
 func _ready() -> void:
 	_sprite.scale = Vector2.ONE * start_scale
+	_sound.play()
 
 	# Two tweens at once (grow + fade).
 	var tween := create_tween().set_parallel(true)
@@ -30,4 +32,9 @@ func _ready() -> void:
 	)
 
 	await tween.finished
+	
+	# If the sound is longer than the visual, let it finish before removing ourselves.
+	if _sound.playing:
+		await _sound.finished
+
 	queue_free()

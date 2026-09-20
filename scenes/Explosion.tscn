@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bwc4tmagdx006"]
 
 [ext_resource type="Script" uid="uid://bvkywkowbdn60" path="res://scripts/explosion.gd" id="1_6o7x5"]
+[ext_resource type="AudioStream" uid="uid://be1flovbigla8" path="res://assets/audio/explosion.ogg" id="2_i4n8h"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_6o7x5"]
 blend_mode = 1
@@ -23,3 +24,6 @@ script = ExtResource("1_6o7x5")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=504263648]
 material = SubResource("CanvasItemMaterial_6o7x5")
 texture = SubResource("GradientTexture2D_57wwf")
+
+[node name="Sound" type="AudioStreamPlayer" parent="." unique_id=1355177900]
+stream = ExtResource("2_i4n8h")
