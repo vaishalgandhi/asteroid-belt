@@ -16,6 +16,7 @@ signal bullet_fired(bullet: Bullet)
 @onready var gun_cooldown: Timer = $GunCooldown
 @onready var muzzle: Marker2D = $Muzzle
 @onready var hitbox_area: Area2D = $HitboxArea
+@onready var _shoot_sound: AudioStreamPlayer = $ShootSound
 
 # Simple guard so a player who's already dying can't somehow trigger
 # this twice (e.g. overlapping two asteroids in the same frame).
@@ -72,6 +73,9 @@ func _fire_bullet() -> void:
 	var bullet := bullet_scene.instantiate() as Bullet
 	bullet.global_position = muzzle.global_position
 	bullet_fired.emit(bullet)
+	
+	_shoot_sound.pitch_scale = randf_range(0.95, 1.05)
+	_shoot_sound.play()
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if is_dead:

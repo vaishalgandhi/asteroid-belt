@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://budyonxanu0wr" path="res://assets/sprites/player_ship.png" id="1_p0vlq"]
 [ext_resource type="Script" uid="uid://cs0o0upbykoa1" path="res://scripts/player.gd" id="1_v6fml"]
 [ext_resource type="PackedScene" uid="uid://80qwma5afwdt" path="res://scenes/Bullet.tscn" id="2_3li8b"]
+[ext_resource type="AudioStream" uid="uid://cso1ljysk6sai" path="res://assets/audio/shoot.ogg" id="4_mdl7e"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7w72f"]
 size = Vector2(96, 74)
@@ -31,3 +32,8 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxArea" unique_id=273980244]
 shape = SubResource("RectangleShape2D_57wwf")
+
+[node name="ShootSound" type="AudioStreamPlayer" parent="." unique_id=608167274]
+stream = ExtResource("4_mdl7e")
+volume_db = -8.0
+max_polyphony = 4
