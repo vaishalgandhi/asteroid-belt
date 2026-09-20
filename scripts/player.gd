@@ -78,16 +78,20 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		return
 
 	if area is Asteroid:
-		is_dead = true
-		hide()
-		set_physics_process(false)
+		_die()
 
-		player_died.emit()
+func _die() -> void:
+	is_dead = true
+	set_physics_process(false)
+	hitbox_area.set_deferred("monitoring", false)
+	hide()
+	player_died.emit()
 
 ## Puts the ship back into a fresh, playable state. Called by Main on restart button pressed.
 func reset(start_position: Vector2) -> void:
 	global_position = start_position
 	velocity = Vector2.ZERO
 	is_dead = false
+	hitbox_area.set_deferred("monitoring", true)
 	show()
 	set_physics_process(true)

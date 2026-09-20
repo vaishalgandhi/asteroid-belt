@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://bwc4tmagdx006"]
+
+[ext_resource type="Script" uid="uid://bvkywkowbdn60" path="res://scripts/explosion.gd" id="1_6o7x5"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_6o7x5"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_rrxks"]
+colors = PackedColorArray(1, 0.81960785, 0.4, 1, 1, 0.27058825, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_57wwf"]
+gradient = SubResource("Gradient_rrxks")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="Explosion" type="Node2D" unique_id=1868921539]
+process_mode = 3
+script = ExtResource("1_6o7x5")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=504263648]
+material = SubResource("CanvasItemMaterial_6o7x5")
+texture = SubResource("GradientTexture2D_57wwf")
